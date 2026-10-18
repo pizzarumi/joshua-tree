@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Joshua Tree &amp; Friends</title>
+<meta name="description" content="Joshua Tree &amp; Friends · Dec 7–14, 2026">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Archivo:wght@400;500;700&display=swap">
+<style>
+/* Layout: follows the Canva idea. Full-bleed desert scene up top, then big condensed headlines on flat grey, hairline rules, pink pill buttons. */
+:root{
+  --bg:#f4f4f4; --surface:#ffffff; --sunk:#e8e8e8; --ink:#111111; --muted:#5b5b5b; --line:#cfcfcf;
+  --pink:#f59bcb; --pink-ink:#111111; --sky:#2c7bc9; --sand:#d8bf98; --sage:#6f7d3c;
+  --f-head:"Barlow Condensed", "Futura Condensed ExtraBold", "Arial Narrow", Impact, sans-serif;
+  --f-body:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141414; --surface:#1e1e1e; --sunk:#262626; --ink:#f2f2f2; --muted:#a8a8a8; --line:#3a3a3a;
+  --pink:#f7a8d2; --sky:#6aa9e6; --sand:#c9b089; --sage:#a3b46a; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#141414; --surface:#1e1e1e; --sunk:#262626; --ink:#f2f2f2; --muted:#a8a8a8; --line:#3a3a3a;
+  --pink:#f7a8d2; --sky:#6aa9e6; --sand:#c9b089; --sage:#a3b46a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+h1,h2,h3{margin:0;text-wrap:balance}
+h2{font-family:var(--f-head);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,7vw,4.6rem);line-height:.92;letter-spacing:.005em}
+h3{font-family:var(--f-head);font-weight:700;text-transform:uppercase;font-size:1.5rem;line-height:1;letter-spacing:.01em}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.small{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:#2c7bc9;cursor:pointer;min-height:clamp(420px,62vw,640px)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-in{position:relative;padding-block:40px;display:grid;gap:12px;pointer-events:none}
+.hero-in button{pointer-events:auto}
+.hero h1{font-family:var(--f-head);font-weight:800;text-transform:uppercase;font-size:clamp(3rem,9.5vw,7.6rem);line-height:.9;letter-spacing:.03em;text-shadow:0 2px 18px rgba(0,0,0,.18)}
+.hero p{margin:0;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;max-width:70ch;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+.hero p b{font-weight:700}
+.hero-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
+.toggle{background:rgba(255,255,255,.92);color:#111;border:0;border-radius:999px;padding:6px 14px;font-size:.8rem;font-weight:700;cursor:pointer}
+.hint{font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+
+/* Picker bar */
+.bar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding-block:10px}
+.links{display:flex;flex-wrap:wrap;gap:4px 16px;flex:1 1 auto;min-width:0}
+.links a{color:var(--ink);text-decoration:none;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:3px 0;border-bottom:2px solid transparent}
+.links a:hover{border-color:var(--pink)}
+
+
+
+
+
+
+
+
+/* Sections */
+section{padding-block:64px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px;align-items:start}
+.split>*{min-width:0}
+.lede{margin:14px 0 0;color:var(--muted);max-width:52ch}
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:7px 18px;font-size:.88rem;cursor:pointer;border:1px solid var(--ink);background:transparent}
+.pill.pink,.pill[aria-pressed="true"]{background:var(--pink);border-color:var(--pink);color:var(--pink-ink)}
+.pill:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+
+/* RSVP */
+
+
+.names{display:flex;flex-wrap:wrap;gap:6px}
+.name{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:2px 10px;font-size:.82rem}
+.count-card{background:var(--sky);color:#fff;padding:28px;display:grid;gap:18px;aspect-ratio:4/3;max-width:100%;align-content:space-between;position:relative;overflow:hidden}
+.count-card .small{color:#e8f2fc}
+.digits{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.digits b{display:block;font-family:var(--f-head);font-weight:800;font-size:clamp(2.6rem,7vw,4.4rem);line-height:.95;font-variant-numeric:tabular-nums}
+.digits span{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#e8f2fc}
+.count-card .when{font-size:.9rem;color:#fff}
+
+/* Week */
+.strip{display:grid;grid-template-columns:repeat(8,minmax(74px,1fr));gap:0;overflow-x:auto;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin-top:28px}
+.day-btn{background:transparent;border:0;border-left:1px solid var(--line);padding:12px 10px;text-align:left;cursor:pointer;display:grid;gap:2px}
+.day-btn:first-child{border-left:0}
+.day-btn b{font-family:var(--f-head);font-size:2rem;line-height:1;font-weight:800}
+.day-btn svg{width:18px;height:18px;margin-top:4px}
+.day-btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.day{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:32px;margin-top:28px}
+@media (max-width:760px){.day{grid-template-columns:1fr}}
+.slot{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.slot:first-of-type{border-top:0}
+.facts{display:grid;gap:10px;align-content:start}
+.fact{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.fact b{font-variant-numeric:tabular-nums}
+
+/* Votes */
+
+
+
+
+
+
+
+
+
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:40px 0 18px}
+.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,264px),1fr));gap:20px}
+.act{display:flex;flex-direction:column;gap:8px;min-width:0}
+.swatch{aspect-ratio:16/10;max-width:100%;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:12px}
+.swatch canvas{position:absolute;inset:0;width:100%;height:100%}
+.swatch .tag{position:relative;background:var(--bg);color:var(--ink);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+.act .meta{margin:0;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.act .note{margin:0;font-size:.9rem}
+
+
+
+
+
+
+
+
+.empty{color:var(--muted);font-size:.9rem;padding:14px 0;border-top:1px solid var(--ink)}
+
+/* Consider */
+.consider{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px;margin-top:28px}
+.consider .tile{aspect-ratio:1/1;max-width:100%;display:grid;place-items:center}
+.consider svg{width:46%;height:46%}
+.consider p{margin:8px 0 0;font-size:.9rem}
+
+/* Info */
+.leg{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.leg:first-of-type{border-top:1px solid var(--ink)}
+.leg .code{font-family:var(--f-head);font-weight:800;font-size:2.4rem;line-height:1}
+.leg .line{height:1px;background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 11px)}
+.leg small{grid-column:1/-1;color:var(--muted)}
+.tips{list-style:none;padding:0;margin:0}
+.tips li{padding:10px 0;border-top:1px solid var(--line)}
+.tips li:first-child{border-top:1px solid var(--ink)}
+footer{padding-block:28px 40px;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase}
+footer a{color:inherit}
+
+/* Pitch an idea */
+
+
+.in{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px;width:100%;min-width:0}
+.in:focus{border-color:var(--ink)}
+.act .by{display:flex;justify-content:space-between;align-items:center;gap:8px}
+
+/* Dinners + packing */
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;padding:8px 6px;border-bottom:1px solid var(--ink)}
+td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+td .in{border-radius:8px;padding:5px 8px;min-width:110px}
+.tbl{overflow-x:auto;margin-top:22px}
+.pack{list-style:none;margin:22px 0 0;padding:0;border-top:1px solid var(--ink)}
+.pack label{display:flex;gap:12px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.pack label:hover{background:var(--sunk)}
+.pack input{width:18px;height:18px;accent-color:var(--pink)}
+.pack input:checked+span{text-decoration:line-through;color:var(--muted)}
+
+
+
+
+
+
+
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+.crew-grid{display:grid;gap:14px;margin-top:22px}
+.crew-grid .grp{display:grid;gap:6px}
+.dinners{list-style:none;margin:22px 0 0;padding:0;border-top:1px solid var(--ink)}
+.dinners li{display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;padding:10px 4px;border-bottom:1px solid var(--line)}
+.packbar{height:10px;background:var(--sunk);margin-top:18px;position:relative}
+.packbar i{position:absolute;left:0;top:0;bottom:0;background:var(--pink);transition:width .4s}
+.packbar i.done{background:var(--sage)}
+</style>
+</head>
+<body>
+<header class="hero" id="top" aria-label="Joshua Tree and Friends">
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <h1>Joshua Tree<br>&amp; Friends</h1>
+    <p>Gift exchange chaos, lots of food, hiking in the desert, witchcraft under the stars~ and D&amp;D one-shots!</p>
+    <p><b>Dec 7 – 14, 2026 · one house · ten friends · one hot tub</b></p>
+    <div class="hero-bar"><button class="toggle" id="daynight" type="button">Turn the lights off</button><span class="hint" id="hint">Tap the desert to plant a Joshua tree · <span id="planted">0</span> planted</span></div>
+  </div>
+</header>
+
+<nav class="bar" aria-label="Sections">
+  <div class="wrap">
+    <div class="links"><a href="#crew">Who's coming</a><a href="#week">The week</a><a href="#todo">Things to do</a><a href="#food">Dinners + packing</a><a href="#consider">Things to consider</a><a href="#info">Need to know</a></div>
+  </div>
+</nav>
+
+<main>
+<section id="crew"><div class="wrap split">
+  <div>
+    <h2>Who's<br>coming</h2>
+    <p class="lede">Ten friends, three cities, one house in the desert.</p>
+    <div class="crew-grid">
+      <div class="grp"><span class="small muted">Flying from New York · lands Mon Dec 7</span><div class="names"><span class="name">Rumi</span><span class="name">Max</span></div></div>
+      <div class="grp"><span class="small muted">Flying from Chicago · lands Wed Dec 9</span><div class="names"><span class="name">Winnie</span><span class="name">Kory</span><span class="name">Michelle</span></div></div>
+      <div class="grp"><span class="small muted">Driving in from LA</span><div class="names"><span class="name">Daemyon</span><span class="name">Alex</span><span class="name">Noah</span><span class="name">Carlos</span></div></div>
+      <div class="grp"><span class="small muted">Flying in · details TBD</span><div class="names"><span class="name">Lundi</span></div></div>
+    </div>
+  </div>
+  <div class="count-card">
+    <span class="small">Wheels up from JFK in</span>
+    <div class="digits" id="count">
+      <div><b id="cd-d">--</b><span>days</span></div><div><b id="cd-h">--</b><span>hours</span></div><div><b id="cd-m">--</b><span>min</span></div><div><b id="cd-s">--</b><span>sec</span></div>
+    </div>
+    <span class="when">Rumi + Max · AS 241 · Mon Dec 7 · 11:30 AM</span>
+  </div>
+</div></section>
+
+<section id="week"><div class="wrap">
+  <h2>The week</h2>
+  <p class="lede">Mornings for adventure, afternoons for chilling, nights for stars. The little moons are the real phase each night.</p>
+  <div class="strip" id="strip" role="group" aria-label="Pick a day"></div>
+  <div class="day" id="day"></div>
+</div></section>
+
+<section id="todo"><div class="wrap">
+  <h2>Things to do</h2>
+  <p class="lede">The idea list. Gift exchange style and the Sunday day trip (Tramway, Indian Canyons or stay put) get decided in the group chat.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filter activities"></div>
+  <div class="acts" id="acts"></div>
+</div></section>
+
+<section id="food"><div class="wrap split">
+  <div>
+    <h2>Dinners</h2>
+    <p class="lede">Everything's plant based. Tell Rumi if you want to lead a night or have allergies.</p>
+    <ul class="dinners" id="dinners"></ul>
+  </div>
+  <div>
+    <h2>Packing<br>list</h2>
+    <p class="lede">Check things off as you pack. Your ticks are saved in this browser only.</p>
+    <div class="packbar"><i id="packbar" style="width:0"></i></div>
+    <p class="small muted" id="packcount" style="margin:8px 0 0">0 of 12 packed</p>
+    <ul class="pack" id="pack"></ul>
+  </div>
+</div></section>
+
+<section id="consider"><div class="wrap">
+  <h2>Things to consider…</h2>
+  <div class="consider">
+    <div><div class="tile" style="background:var(--sand)"><svg viewBox="0 0 48 48" fill="none" stroke="#111" stroke-width="2.5" stroke-linejoin="round"><rect x="8" y="18" width="32" height="24"/><path d="M6 12h36v6H6zM24 12v30M24 12c-4-8-12-6-8 0M24 12c4-8 12-6 8 0"/></svg></div>
+      <p class="small" style="margin-top:12px">What to bring</p><p>A wrapped gift for the gift exchange, snacks, a 1L+ water bottle, a headlamp with red light, and a swimsuit for the hot tub.</p></div>
+    <div><div class="tile" style="background:var(--pink)"><svg viewBox="0 0 48 48" fill="none" stroke="#111" stroke-width="2.5" stroke-linejoin="round"><path d="M16 8l-9 6 4 8 4-2v20h18V20l4 2 4-8-9-6c-1 4-5 6-8 6s-7-2-8-6z"/></svg></div>
+      <p class="small" style="margin-top:12px">What to wear</p><p>Something you can hike and scramble in. Nights drop to the 30s °F, so bring a fleece, puffer, beanie and gloves.</p></div>
+    <div><div class="tile" style="background:var(--sage)"><svg viewBox="0 0 48 48" fill="none" stroke="#111" stroke-width="2.5" stroke-linejoin="round"><path d="M6 24h36c0 10-8 16-18 16S6 34 6 24z"/><path d="M18 20c0-6 4-10 10-12M26 20c2-4 6-6 10-6"/></svg></div>
+      <p class="small" style="margin-top:12px">What we'll serve</p><p>Plant-based everything. Group cook nights at the house, plus a dinner out in Pioneertown.</p></div>
+  </div>
+</div></section>
+
+<section id="info"><div class="wrap split">
+  <div>
+    <h2>Need to know</h2>
+    <div style="margin-top:22px">
+      <p class="small muted" style="margin:0 0 8px">New York crew · Rumi + Max</p>
+      <div class="leg"><span class="code">JFK</span><div class="line"></div><span class="code">PSP</span><small>AS 241 · Mon Dec 7 · 11:30 AM → lands 2:43 PM</small></div>
+      <div class="leg"><span class="code">PSP</span><div class="line"></div><span class="code">JFK</span><small>AS 242 · Mon Dec 14 · 2:16 PM → 10:29 PM · leave the house by ~10:30 AM</small></div>
+    </div>
+    <div style="margin-top:28px">
+      <p class="small muted" style="margin:0 0 8px">Chicago crew · Winnie, Kory + Michelle</p>
+      <div class="leg"><span class="code">ORD</span><div class="line"></div><span class="code">PSP</span><small>Wed Dec 9 · lands 12:03 PM · needs a pickup at PSP</small></div>
+      <div class="leg"><span class="code">PSP</span><div class="line"></div><span class="code">ORD</span><small>Mon Dec 14 · departs 10:35 AM · leave the house by ~8:30 AM</small></div>
+    </div>
+  </div>
+  <ul class="tips">
+    <li><b>The house:</b> 4BR with a hot tub and Tesla charger. Check in Mon Dec 7 after 4 PM, out Mon Dec 14 by 10 AM. Address and door code come about 3 days before.</li>
+    <li><b>Driving in from LA:</b> Daemyon, Alex, Noah + Carlos. It's about 2–2.5 hours to the house without traffic.</li>
+    <li><b>Lundi:</b> flying in, flight details TBD.</li>
+    <li><b>From PSP:</b> the house is about an hour away. Car plan is still TBD.</li>
+    <li><b>Sunset is ~4:45 PM.</b> Hike in the morning, hot tub and stars at night.</li>
+    <li><b>Sky bonus:</b> new moon around Dec 9 and the Geminids peak around Dec 13–14.</li>
+    <li><b>Park entry</b> is $30 per car for all 7 days. Carpool.</li>
+  </ul>
+</div></section>
+</main>
+
+<footer class="wrap">DM Rumi for questions &amp; stuff. This is a collaborative effort though!</footer>
+
+<script>
+(() => {
+'use strict';
+// ---------- trip data ----------
+const DAYS = [
+  {d:7,w:'Mon',theme:'Arrive + settle in',m:'Fly JFK → PSP (lands 2:43 PM), pick up the car',a:'Grocery run in Yucca Valley or Joshua Tree, check in at 4 PM',e:'Hot tub + first desert stars. Easy pasta night',v:'Chill'},
+  {d:8,w:'Tue',theme:'Park day: rocks',m:'Hidden Valley loop (1 mi) + Barker Dam (1.3 mi)',a:'Skull Rock, Jumbo Rocks scramble, picnic lunch',e:'Sunset at Keys View (~4:45 PM), then dark-sky stargazing',v:'Adventure'},
+  {d:9,w:'Wed',theme:'Art + town day',m:'Slow morning, coffee. Winnie, Kory + Michelle land at PSP 12:03 PM from ORD',a:'Noah Purifoy Outdoor Desert Art Museum (free), thrift and vintage shops',e:'Group cook night + hot tub. New moon = darkest skies',v:'Art + chill'},
+  {d:10,w:'Thu',theme:'Summit morning',m:'Ryan Mountain (2.9 mi round trip) for big views',a:'Cholla Cactus Garden (golden light), Cottonwood Spring',e:'Game night / movie at the house',v:'Adventure'},
+  {d:11,w:'Fri',theme:'Pioneertown + music',m:'Late brunch in town',a:'Pioneertown old West sets (free to walk)',e:"Dinner/show at Pappy & Harriet's",v:'Fun'},
+  {d:12,w:'Sat',theme:'Sound bath day',m:'Easy morning in the hot tub',a:'Integratron sound bath or Wall Street Mill hike (1.8 mi)',e:"Bonfire-style night with s'mores",v:'Relax'},
+  {d:13,w:'Sun',theme:'Day trip or rest day',m:'Tramway, Indian Canyons or stay put. Decide in the group chat',a:"Cabot's Pueblo Museum or a lazy afternoon",e:'Geminids meteor shower watch, blankets + thermos',v:'You decide'},
+  {d:14,w:'Mon',theme:'Pack + fly home',m:'Chicago crew heads to PSP early for their 10:35 AM flight. Everyone else cleans up, checks out by 10 AM',a:'NYC crew drives to PSP for AS 242 at 2:16 PM. LA crew drives home',e:'NYC crew home 10:29 PM at JFK',v:'Travel'},
+];
+
+const ACTS = [
+  ['White elephant gift exchange','Indoors','The living room',0,'One wrapped gift each','Night','Draw numbers, open or steal, maximum chaos'],
+  ['Secret Santa','Indoors','The living room',0,'One gift each','Night','Draw names before the trip'],
+  ['D&D one-shot','Indoors','The dining table',0,'Free','Night','Who wants to DM?'],
+  ['Board game night','Indoors','The house',0,'Bring your favorites','Night','Codenames, Catan, Wavelength'],
+  ['Ugly holiday sweater party','Indoors','The house',0,'Thrift one in town','Night','Best sweater picks the next movie'],
+  ['Movie marathon + blanket fort','Indoors','The house',0,'Free','Night','Pick a theme. Desert horror?'],
+  ['Karaoke night','Indoors','The house',0,'Free','Night','Speaker + a lyrics playlist'],
+  ['Murder mystery dinner','Indoors','The house',0,'Free kits online','Evening','Everyone gets a character'],
+  ['Holiday cookie decorating','Indoors','The kitchen',5,'Groceries','Afternoon','Plant-based dough + icing'],
+  ['Group cook night','Indoors','The kitchen',12,'Groceries','Evening','Plant-based, cheapest and most fun'],
+  ['Witchcraft under the stars','Under the stars','The patio',0,'Free','After dark','Candles, tarot and a moonless sky'],
+  ['Hot tub + stargazing','Under the stars','The house',0,'Included','Night','New moon ~Dec 9, Geminids ~Dec 13–14'],
+  ['Hidden Valley Nature Trail','Hiking','JTNP',0,'Park fee','Morning','Easy 1 mi boulder maze, great photos'],
+  ['Barker Dam Loop','Hiking','JTNP',0,'Park fee','Morning','Easy 1.3 mi, petroglyphs spur'],
+  ['Ryan Mountain','Hiking','JTNP',0,'Park fee','Morning','Moderate 2.9 mi, best summit views'],
+  ['Skull Rock + Jumbo Rocks','Hiking','JTNP',0,'Park fee','Midday','Scramble spots'],
+  ['Panorama Loop','Hiking','JTNP',0,'Park fee','Morning','Moderate 6.3 mi, for the hiking crew'],
+  ['Wall Street Mill hike','Hiking','JTNP',0,'Park fee','Morning','Easy 1.8 mi, old mill ruins'],
+  ['Cholla Cactus Garden','Sights','JTNP',0,'Park fee','Late afternoon','Golden light photos'],
+  ['Keys View sunset','Sights','JTNP',0,'Park fee','~4:30 PM','Drive-up. Dress warm'],
+  ['Dark-sky stargazing at Hidden Valley','Under the stars','JTNP',0,'Park fee','After dark','Bring a red-light headlamp'],
+  ['Keys Ranch guided tour','Sights','JTNP',10,'NPS rate','Check schedule','Guided only, reserve ahead'],
+  ['Noah Purifoy Desert Art Museum','Town','Joshua Tree',0,'Free','Daytime','Groups over 10 arrange ahead'],
+  ["Pioneertown + Pappy & Harriet's",'Town','Pioneertown',35,'Dinner + drink','Evening','Check the show calendar'],
+  ['Thrift + vintage shopping','Town','Joshua Tree / Yucca Valley',20,'Spending','Afternoon','Desert treasures'],
+  ['Integratron sound bath','Town','Landers',40,'Verify + book','Varies','Books out, splurge pick'],
+  ['Palm Springs Aerial Tramway','Day trips','Palm Springs',35,'Verify','Midday','Snow possible at the top'],
+  ['Indian Canyons','Day trips','Palm Springs',12,'Verify','Morning','Palm oasis hikes'],
+  ['Salton Sea + Bombay Beach','Day trips','~1.5 hr drive',0,'Gas only','Afternoon','Quirky art, sunset'],
+].map((r,i)=>({id:'a'+i,name:r[0],cat:r[1],where:r[2],cost:r[3],basis:r[4],when:r[5],note:r[6]}));
+
+const MEALS = ['Easy pasta + salad','Tacos or eat out','Group cook night (Chicago crew arrives!)','Chili / soup for a cold night',"Pappy & Harriet's in Pioneertown",'Build-your-own pizza / bowls','Leftover fiesta + meteor watch'];
+const PACK = ['Layers: fleece, puffer, beanie, gloves','Hiking shoes + warm socks','Daypack + 1L+ water bottle','Headlamp with red light','Sunscreen, lip balm, sunglasses','Swimsuit for the hot tub','Wrapped gift for the exchange','Ugly holiday sweater','Blanket or thermos for stargazing','Portable charger (spotty service)','REAL ID / photo ID','Offline maps downloaded'];
+
+// ---------- helpers ----------
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ls = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
+};
+
+// ---------- countdown ----------
+const T0 = Date.UTC(2026,11,7,16,30);
+function tick(){
+  let ms=T0-Date.now();
+  if (ms<=0){ $('#count').innerHTML='<div style="grid-column:1/-1"><b>Now</b><span>you\'re in the desert</span></div>'; return; }
+  const d=Math.floor(ms/864e5); ms-=d*864e5; const h=Math.floor(ms/36e5); ms-=h*36e5; const m=Math.floor(ms/6e4); const s=Math.floor((ms-m*6e4)/1000);
+  $('#cd-d').textContent=d; $('#cd-h').textContent=String(h).padStart(2,'0'); $('#cd-m').textContent=String(m).padStart(2,'0'); $('#cd-s').textContent=String(s).padStart(2,'0');
+}
+tick(); setInterval(tick, 1000);
+
+// ---------- moon + week ----------
+function moonPhase(date){ const jd=date.getTime()/86400000+2440587.5; let p=((jd-2451550.1)/29.530588853)%1; return p<0?p+1:p; }
+function moonSVG(p){
+  const r=9, k=Math.cos(2*Math.PI*p), wax=p<0.5, rx=Math.abs(k*r).toFixed(2), sw=wax?(k>0?0:1):(k>0?1:0), lit=(1-Math.cos(2*Math.PI*p))/2;
+  const path = lit<0.02 ? '' : `<path d="M0,${-r} A${r},${r} 0 0 ${wax?1:0} 0,${r} A${rx},${r} 0 0 ${sw} 0,${-r}Z" fill="currentColor"/>`;
+  return `<svg viewBox="-11 -11 22 22" role="img" aria-label="Moon ${Math.round(lit*100)}% lit"><circle r="${r}" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="1.2"/>${path}</svg>`;
+}
+const moonName = p => p<.03||p>.97?'New moon':p<.22?'Waxing crescent':p<.28?'First quarter':p<.47?'Waxing gibbous':p<.53?'Full moon':p<.72?'Waning gibbous':p<.78?'Last quarter':'Waning crescent';
+let dayIdx = Math.max(0, Math.min(7, +(ls.get('jt-day') ?? 0) || 0));
+const phaseOf = i => moonPhase(new Date(Date.UTC(2026,11,7+i,6)));
+function renderStrip(){
+  $('#strip').innerHTML = DAYS.map((d,i)=>`<button class="day-btn" type="button" data-i="${i}" aria-pressed="${i===dayIdx}"><span class="small">${d.w}</span><b>${d.d}</b>${moonSVG(phaseOf(i))}</button>`).join('');
+}
+function renderDay(){
+  const d=DAYS[dayIdx], p=phaseOf(dayIdx), lit=Math.round((1-Math.cos(2*Math.PI*p))/2*100);
+  $('#day').innerHTML = `<div>
+      <span class="small muted">${d.w} Dec ${d.d} · ${esc(d.v)}</span>
+      <h3 style="font-size:2rem;margin:6px 0 10px">${esc(d.theme)}</h3>
+      <div class="slot"><span class="small muted">Morning</span><span>${esc(d.m)}</span></div>
+      <div class="slot"><span class="small muted">Afternoon</span><span>${esc(d.a)}</span></div>
+      <div class="slot"><span class="small muted">Evening</span><span>${esc(d.e)}</span></div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span>Sunset</span><b>~4:45 PM</b></div>
+      <div class="fact"><span>${moonName(p)}</span><b>${lit}% lit</b></div>
+      <div class="fact"><span>Night low</span><b>30s °F</b></div>
+      ${dayIdx>=6?'<div class="fact"><span>Geminids</span><b>peak night</b></div>':''}
+    </div>`;
+}
+$('#strip').addEventListener('click', e => { const b=e.target.closest('.day-btn'); if(!b) return; dayIdx=+b.dataset.i; ls.set('jt-day', dayIdx); renderStrip(); renderDay(); });
+
+// ---------- things to do ----------
+let filter='All';
+const CAT_SCENE = {'Indoors':'cabin','Under the stars':'night','Hiking':'rocks','Sights':'dusk','Town':'town','Day trips':'palms'};
+const CATS=['All', ...new Set(ACTS.map(a=>a.cat))];
+function renderActs(){
+  $('#filters').innerHTML = CATS.map(x=>`<button class="pill" type="button" data-c="${esc(x)}" aria-pressed="${x===filter}">${esc(x)}</button>`).join('');
+  $('#acts').innerHTML = ACTS.filter(a=>filter==='All'||a.cat===filter).map(a=>`<article class="act">
+      <div class="swatch" data-scene="${CAT_SCENE[a.cat]||'rocks'}" data-seed="${a.id.slice(1)}"><canvas aria-hidden="true"></canvas><span class="tag">${esc(a.cat)}</span></div>
+      <h3>${esc(a.name)}</h3>
+      <p class="meta">${esc(a.where)} · ${esc(a.when)} · ${a.cost?'~$'+a.cost:'Free'}</p>
+      ${a.note?`<p class="note">${esc(a.note)}</p>`:''}
+    </article>`).join('');
+  document.querySelectorAll('.swatch').forEach(paintSwatch);
+}
+$('#filters').addEventListener('click', e => { const b=e.target.closest('.pill'); if(!b) return; filter=b.dataset.c; renderActs(); });
+
+// ---------- dinners ----------
+$('#dinners').innerHTML = MEALS.map((m,i)=>`<li><span><b>${DAYS[i].w}</b> Dec ${DAYS[i].d}</span><span>${esc(m)}</span></li>`).join('');
+
+// ---------- packing (saved in this browser only) ----------
+const packed = new Set(ls.get('jt-packed') || []);
+function renderPack(){
+  $('#pack').innerHTML = PACK.map((it,i)=>`<li><label><input type="checkbox" id="pk-${i}" data-i="${i}"${packed.has(i)?' checked':''}><span>${esc(it)}</span></label></li>`).join('');
+  updatePack();
+}
+function updatePack(){
+  const n=[...packed].filter(i=>i<PACK.length).length, done=n===PACK.length;
+  $('#packbar').style.width=(n/PACK.length*100)+'%'; $('#packbar').className=done?'done':'';
+  $('#packcount').textContent = done ? 'Fully packed. Desert-ready!' : `${n} of ${PACK.length} packed`;
+}
+$('#pack').addEventListener('change', e => {
+  const i=+e.target.dataset.i; if (e.target.checked) packed.add(i); else packed.delete(i);
+  ls.set('jt-packed', [...packed]); updatePack();
+  if (packed.size===PACK.length) confetti();
+});
+function confetti(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv=document.createElement('canvas'); cv.className='confetti'; document.body.appendChild(cv);
+  const g=cv.getContext('2d'), W=cv.width=innerWidth, H=cv.height=innerHeight;
+  const cols=['#f59bcb','#2c7bc9','#d8bf98','#6f7d3c','#111'];
+  const bits=Array.from({length:140},()=>({x:W/2+(Math.random()-.5)*80,y:H*.6,vx:(Math.random()-.5)*14,vy:-8-Math.random()*12,s:4+Math.random()*6,r:Math.random()*6,c:cols[Math.floor(Math.random()*cols.length)]}));
+  let f=0; (function step(){ g.clearRect(0,0,W,H); bits.forEach(b=>{ b.x+=b.vx; b.y+=b.vy; b.vy+=.35; b.r+=.2; g.save(); g.translate(b.x,b.y); g.rotate(b.r); g.fillStyle=b.c; g.fillRect(-b.s/2,-b.s/4,b.s,b.s/2); g.restore(); }); if(++f<140) requestAnimationFrame(step); else cv.remove(); })();
+}
+
+// ---------- drawing: shared desert painter ----------
+function rng(seed){ seed = (seed % 2147483646) + 1; return () => { seed=(seed*16807)%2147483647; return (seed-1)/2147483646; }; }
+function joshua(g, x0, base, h, r, trunk, leaf){
+  g.lineCap='round'; g.lineJoin='round';
+  const tw=Math.max(2.5,h*.07);
+  function tuft(x1,y1,ang){ g.strokeStyle=leaf; for(let k=-5;k<=5;k++){ const a=ang+k*.27; g.lineWidth=Math.max(1,tw*.24); g.beginPath(); g.moveTo(x1,y1); g.lineTo(x1+Math.sin(a)*h*.1, y1-Math.cos(a)*h*.1); g.stroke(); } g.strokeStyle=trunk; }
+  function branch(x1,y1,ang,len,w,depth){
+    const x2=x1+Math.sin(ang)*len, y2=y1-Math.cos(ang)*len;
+    g.strokeStyle=trunk; g.lineWidth=w; g.beginPath(); g.moveTo(x1,y1); g.quadraticCurveTo(x1+Math.sin(ang)*len*.5, y1-Math.cos(ang)*len*.3, x2,y2); g.stroke();
+    if (depth<=0 || r()<.18){ tuft(x2,y2,ang*.4); return; }
+    const n = r()<.55?2:1;
+    for(let i=0;i<n;i++){ const s=n===1?(r()<.5?-1:1):(i?1:-1); branch(x2,y2, ang*.35 + s*(.35+r()*.6), len*(.6+r()*.3), w*.72, depth-1); }
+  }
+  branch(x0, base, (r()-.5)*.15, h*.45, tw, 3);
+}
+function boulders(g, cx, base, size, r, light, shade){
+  const n=4+Math.floor(r()*5);
+  for(let k=0;k<n;k++){
+    const rx=size*(.35+r()*.5), ry=rx*(.6+r()*.35), x=cx+(r()-.5)*size*2.2, y=base-ry*.55-(k%3)*ry*.75;
+    g.fillStyle=shade; g.beginPath(); g.ellipse(x+rx*.08,y+ry*.08,rx,ry,(r()-.5)*.6,0,6.29); g.fill();
+    g.fillStyle=light; g.beginPath(); g.ellipse(x-rx*.06,y-ry*.08,rx*.9,ry*.86,(r()-.5)*.6,0,6.29); g.fill();
+  }
+}
+const PAL = {
+  day:{sky:['#1f6fc0','#5ea4e0','#a9d2f1'],rock:'#e3cba4',shade:'#b99b70',ground:'#b48b52',grass:'#8c6a36',trunk:'#4b4128',leaf:'#59672a',far:'#9db7c9'},
+  night:{sky:['#07081a','#1a1f4a','#3b3363'],rock:'#2a2747',shade:'#1a1830',ground:'#14122a',grass:'#100e22',trunk:'#0b0a18',leaf:'#141a14',far:'#1d2146'},
+  dusk:{sky:['#3a3f8f','#c86b8a','#f2b46b'],rock:'#d49a77',shade:'#9a6450',ground:'#7d5440',grass:'#5e3d2f',trunk:'#2b1f22',leaf:'#3d3a22',far:'#8c6d93'},
+};
+function paintScene(g, W, H, pal, seed, opts={}){
+  const r=rng(seed*7919+13);
+  const gr=g.createLinearGradient(0,0,0,H); gr.addColorStop(0,pal.sky[0]); gr.addColorStop(.6,pal.sky[1]); gr.addColorStop(1,pal.sky[2]);
+  g.fillStyle=gr; g.fillRect(0,0,W,H);
+  if (opts.stars){ for(let i=0;i<W*H/900;i++){ g.globalAlpha=.3+r()*.7; g.fillStyle='#fff8e6'; const s=r()*1.4+.3; g.fillRect(r()*W, r()*H*.7, s, s); } g.globalAlpha=1; }
+  if (opts.clouds){ g.fillStyle='rgba(255,255,255,.75)'; for(let i=0;i<Math.max(2,W/300);i++){ const cx=r()*W, cy=H*(.08+r()*.25), w=60+r()*120; for(let k=0;k<4;k++){ g.beginPath(); g.ellipse(cx+k*w*.25, cy+(k%2)*4, w*.3, w*.09, 0, 0, 6.29); g.fill(); } } }
+  g.fillStyle=pal.far; g.beginPath(); g.moveTo(0,H);
+  for(let px=0;px<=W;px+=8) g.lineTo(px, H*.74 - Math.sin(px/170+seed)*H*.03 - Math.sin(px/53+1)*H*.012);
+  g.lineTo(W,H); g.fill();
+  const groundY=H*.86;
+  const piles=Math.max(1,Math.round(W/320));
+  for(let i=0;i<piles;i++) boulders(g, (i+.3+r()*.4)*W/piles, groundY+4, H*(.07+r()*.08), r, pal.rock, pal.shade);
+  g.fillStyle=pal.ground; g.beginPath(); g.moveTo(0,H); for(let px=0;px<=W;px+=10) g.lineTo(px, groundY - Math.sin(px/90+seed)*3); g.lineTo(W,H); g.fill();
+  g.strokeStyle=pal.grass; g.lineWidth=1.2; for(let i=0;i<W/4;i++){ const x=r()*W, y=groundY+r()*(H-groundY), l=4+r()*10; g.beginPath(); g.moveTo(x,y); g.lineTo(x+(r()-.5)*5, y-l); g.stroke(); }
+  const trees=opts.trees ?? Math.max(2, Math.round(W/190));
+  for(let i=0;i<trees;i++) joshua(g, (i+.2+r()*.6)*W/trees, groundY+2, H*(.22+r()*.26), r, pal.trunk, pal.leaf);
+  if (opts.palms){ for(let i=0;i<3;i++){ const x=W*(.2+i*.3+r()*.1), h=H*(.4+r()*.2); g.strokeStyle=pal.trunk; g.lineWidth=4; g.beginPath(); g.moveTo(x,groundY); g.quadraticCurveTo(x+8,groundY-h*.5,x+4,groundY-h); g.stroke(); g.strokeStyle=pal.leaf; g.lineWidth=3; for(let k=0;k<7;k++){ const a=-Math.PI+k*Math.PI/6; g.beginPath(); g.moveTo(x+4,groundY-h); g.quadraticCurveTo(x+4+Math.cos(a)*22, groundY-h-12, x+4+Math.cos(a)*34, groundY-h+Math.abs(Math.sin(a))*6+8); g.stroke(); } } }
+  if (opts.house){
+    const hw=Math.min(W*.42,190), hh=H*.3, hx=W*.5-hw/2, hy=groundY-hh;
+    g.fillStyle=pal.trunk; g.fillRect(hx,hy,hw,hh);
+    g.beginPath(); g.moveTo(hx-8,hy+1); g.lineTo(hx+hw*.5,hy-hh*.55); g.lineTo(hx+hw+8,hy+1); g.closePath(); g.fill();
+    g.fillStyle='#ffc56b'; g.shadowColor='#ffb347'; g.shadowBlur=14;
+    const ww=hw*.18, wh=hh*.36; [.14,.41,.68].forEach(f=>g.fillRect(hx+hw*f, hy+hh*.22, ww, wh));
+    g.shadowBlur=0;
+    g.fillStyle='rgba(255,197,107,.25)'; g.beginPath(); g.ellipse(W*.5, groundY+4, hw*.7, 8, 0, 0, 6.29); g.fill();
+  }
+  if (opts.town){ g.fillStyle=pal.trunk; for(let i=0;i<4;i++){ const w=W*(.12+r()*.06), h=H*(.14+r()*.12), x=W*(.08+i*.23); g.fillRect(x, groundY-h, w, h); g.fillRect(x+w*.1, groundY-h-H*.04, w*.8, H*.04); } }
+}
+function paintSwatch(el){
+  const cv=el.querySelector('canvas'), W=el.clientWidth||300, H=el.clientHeight||190, dpr=Math.min(2,devicePixelRatio||1);
+  cv.width=W*dpr; cv.height=H*dpr; const g=cv.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0);
+  const sc=el.dataset.scene, seed=+el.dataset.seed+1;
+  const dark = sc==='night'||sc==='cabin';
+  const pal = dark?PAL.night: sc==='dusk'?PAL.dusk: PAL.day;
+  paintScene(g, W, H, pal, seed, {stars: dark, clouds: !dark&&sc!=='dusk', trees: sc==='cabin'?2:sc==='town'||sc==='palms'?1:Math.max(1,Math.round(W/150)), palms: sc==='palms', town: sc==='town', house: sc==='cabin'});
+}
+
+// ---------- hero scene ----------
+(function hero(){
+  const el=$('#top'), cv=$('#scene'), g=cv.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W=0,H=0,dpr=1, night=false, base=null, planted=[], meteors=[], running=false, count=0;
+  function build(){
+    base=document.createElement('canvas'); base.width=W*dpr; base.height=H*dpr;
+    const b=base.getContext('2d'); b.setTransform(dpr,0,0,dpr,0,0);
+    paintScene(b, W, H, night?PAL.night:PAL.day, 42, {stars:night, clouds:!night});
+    const pal=night?PAL.night:PAL.day;
+    planted.forEach(p => joshua(b, p.x*W, H*.86+2, p.h*H, rng(p.s), pal.trunk, pal.leaf));
+  }
+  function draw(){
+    g.setTransform(dpr,0,0,dpr,0,0); g.drawImage(base,0,0,W,H);
+    for(const m of meteors){ const k=1-m.life/m.max, tx=m.x-m.vx*9, ty=m.y-m.vy*9; const lg=g.createLinearGradient(m.x,m.y,tx,ty); lg.addColorStop(0,`rgba(255,240,200,${k})`); lg.addColorStop(1,'rgba(255,240,200,0)'); g.strokeStyle=lg; g.lineWidth=2; g.beginPath(); g.moveTo(m.x,m.y); g.lineTo(tx,ty); g.stroke(); }
+  }
+  function loop(){
+    if (night && !reduce && Math.random()<.01) spawn(Math.random()*W*1.1, Math.random()*H*.3);
+    meteors.forEach(m=>{ m.x+=m.vx; m.y+=m.vy; m.life++; }); meteors=meteors.filter(m=>m.life<m.max);
+    draw();
+    if (meteors.length || (night && !reduce)) requestAnimationFrame(loop); else running=false;
+  }
+  function start(){ if(!running){ running=true; requestAnimationFrame(loop); } }
+  function spawn(x,y){ const sp=7+Math.random()*5, a=Math.PI*(.72+Math.random()*.12); meteors.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:0,max:45+Math.random()*30}); }
+  function resize(){ dpr=Math.min(2,devicePixelRatio||1); W=el.clientWidth; H=el.clientHeight; cv.width=W*dpr; cv.height=H*dpr; build(); draw(); }
+  el.addEventListener('click', e => {
+    if (e.target.closest('button')) return;
+    const b=el.getBoundingClientRect(), x=e.clientX-b.left, y=e.clientY-b.top;
+    if (night){ for(let i=0;i<4;i++) setTimeout(()=>{ spawn(x+(Math.random()-.5)*120, y+(Math.random()-.5)*60); start(); }, i*90); count++; $('#planted').textContent=count; return; }
+    if (planted.length>=40) planted.shift();
+    planted.push({x:x/W, h:.16+Math.random()*.22, s:Math.floor(Math.random()*1e6)}); build(); draw(); count++; $('#planted').textContent=count;
+  });
+  $('#daynight').addEventListener('click', () => {
+    night=!night; count=0; $('#planted').textContent=0;
+    $('#daynight').textContent = night ? 'Turn the sun back on' : 'Turn the lights off';
+    $('#hint').firstChild.textContent = night ? 'Tap the sky to throw a Geminid · wishes: ' : 'Tap the desert to plant a Joshua tree · ';
+    $('#hint').lastChild.textContent = night ? '' : ' planted';
+    build(); draw(); if (night) start();
+  });
+  new ResizeObserver(resize).observe(el);
+  resize();
+})();
+
+let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt=setTimeout(()=>document.querySelectorAll('.swatch').forEach(paintSwatch), 200); });
+// ---------- boot ----------
+renderStrip(); renderDay(); renderActs(); renderPack();
+})();
+</script>
+</body>
+</html>
